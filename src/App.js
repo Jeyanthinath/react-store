@@ -18,11 +18,11 @@ class App extends Component {
           <Route path="*" component={NotFound} />
         </Switch>
         <p className="App-intro">
+        </p>
           <footer>
             <hr/>
             &copy; jeyanthi <code>2017</code>
           </footer>
-        </p>
       </div>
     );
   }
