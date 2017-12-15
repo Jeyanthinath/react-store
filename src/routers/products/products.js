@@ -13,6 +13,7 @@ class ProductsContainer extends Component {
     }
     componentDidMount() {
         this.ListProducts();
+        this.getCart();
     }
 
     ListProducts() {
@@ -33,13 +34,9 @@ class ProductsContainer extends Component {
         var req_url = 'http://localhost:3000/add/' + itemId
         axios.get(req_url)
             .then(function (response) {
-                console.log(response.data.ok)
-                if (response.data.ok === 'ok') {
-                    return true
-                }
+                self.getCart();
             }).catch(err => console.log('error', err))
         self.setState({ 'message': "" })
-        return false
     }
 
     getCart() {
@@ -56,8 +53,9 @@ class ProductsContainer extends Component {
     handleClick(e) {
         e.preventDefault();
         var itemId = e.target.id;
+
+        //update cart items
         this.updateCart(itemId)
-        this.getCart();
     }
 
 

@@ -4,6 +4,7 @@ import './App.css';
 import { Switch, Route } from 'react-router-dom';
 import StoreHome from './routers/home/home'
 import ProductsContainer from './routers/products/products'
+import CheckoutAndPay from './routers/checkout_and_pay/checkout_and_pay'
 import NotFound from './routers/shared/shared'
 
 class App extends Component {
@@ -16,7 +17,8 @@ class App extends Component {
         </header>
         <Switch>
           <Route exact path="/" component={StoreHome} />
-          <Route path="/products" component={ProductsContainer} handler={this.handler}/>
+          <Route path="/products" component={ProductsContainer} />
+          <Route path="/checkout" component={CheckoutAndPay} />
           <Route path="*" component={NotFound} />
         </Switch>
         <p className="App-intro">
