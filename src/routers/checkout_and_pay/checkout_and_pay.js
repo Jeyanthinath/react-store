@@ -85,7 +85,7 @@ class CheckoutAndPay extends Component {
                     <input type="text" name="name" />
                     </label>
                     <br />
-                    {this.state.checkout == 0 ?
+                    {this.state.checkout === 0 ?
                         <input type="button" value="Checkout" onClick={this.handleClick} /> :
                         <input type="button" value="Pay" onClick={this.handleClick1} />
                     }
