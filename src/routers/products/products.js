@@ -6,7 +6,8 @@ class ProductsContainer extends Component {
         super(props)
         this.state = {
             products: [],
-            cart: []
+            cart: [],
+            message: ''
         };
         this.handleClick = this.handleClick.bind(this);
     }
@@ -16,20 +17,48 @@ class ProductsContainer extends Component {
 
     ListProducts() {
         var self = this
+        self.setState({ 'message': "Adding to cart..." })
         axios.get('http://localhost:3000/')
-        .then(function (response) {
-            console.log(response.data.result);
-            self.setState({ products: response.data.result })
-          }).catch(err => console.log('error', err));
+            .then(function (response) {
+                console.log(response.data.result);
+                self.setState({ products: response.data.result })
+            }).catch(err => console.log('error', err));
+        self.setState({ 'message': "" })
     }
+
+    updateCart(itemId) {
+        var self = this
+        console.log("updating cart ...")
+        self.setState({ 'message': "retriving cart...." })
+        var req_url = 'http://localhost:3000/add/' + itemId
+        axios.get(req_url)
+            .then(function (response) {
+                console.log(response.data.ok)
+                if (response.data.ok === 'ok') {
+                    return true
+                }
+            }).catch(err => console.log('error', err))
+        self.setState({ 'message': "" })
+        return false
+    }
+
+    getCart() {
+        console.log("get cart ...")
+        var self = this
+        axios.get('http://localhost:3000/get_cart')
+            .then(function (response) {
+                console.log(response);
+                self.setState({ cart: response.data.result })
+            }).catch(err => console.log('error', err));
+    }
+
 
     handleClick(e) {
         e.preventDefault();
-        let new_cart=this.state.cart
-        var itemName = e.target.id;
-        new_cart.push({'item': itemName})
-        this.setState({cart: new_cart})
-      }
+        var itemId = e.target.id;
+        this.updateCart(itemId)
+        this.getCart();
+    }
 
 
     render() {
@@ -37,17 +66,18 @@ class ProductsContainer extends Component {
             <div>
                 <h1> <u>Products Home</u> </h1>
                 <div className='cart'>
+                    {this.state.message}
                     ({this.state.cart.length} items in cart)
-                    { this.state.cart.length > 0 ?
-                        <a href='/checkout'> <u> Checkout </u> </a> : null
+                    {this.state.cart.length > 0 ?
+                        <a href="/checkout"> <u> Review & Checkout </u> </a> : null
                     }
                 </div>
                 {this.state.products.map((data, index) => {
                     return (<div key={index}>
-                                <span> <h3> {data.name}  </h3> <h4> {data.meta.display_price.with_tax.formatted} </h4> </span>
-                                <button id={data.id} onClick={this.handleClick}> Add to Cart </button>
-                                <hr style={{width: 40+'%'}}/>
-                            </div>
+                        <span> <h3> {data.name}  </h3> <h4> {data.meta.display_price.with_tax.formatted} </h4> </span>
+                        <button id={data.id} onClick={this.handleClick}> Add to Cart </button>
+                        <hr style={{ width: 40 + '%' }} />
+                    </div>
                     );
                 })
                 }

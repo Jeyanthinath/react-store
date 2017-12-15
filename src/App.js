@@ -7,11 +7,12 @@ import ProductsContainer from './routers/products/products'
 import NotFound from './routers/shared/shared'
 
 class App extends Component {
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Welcome to TV Shop</h1>
+          <h1 className="App-title">Welcome to TV Shop {this.props.cart1} </h1>
         </header>
         <Switch>
           <Route exact path="/" component={StoreHome} />
