@@ -5,9 +5,10 @@ class ProductsContainer extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            products: []
+            products: [],
+            cart: []
         };
-        // this.ListProducts = this.ListProducts.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
     componentDidMount() {
         this.ListProducts();
@@ -22,13 +23,32 @@ class ProductsContainer extends Component {
           }).catch(err => console.log('error', err));
     }
 
+    handleClick(e) {
+        e.preventDefault();
+        let new_cart=this.state.cart
+        var itemName = e.target.id;
+        new_cart.push({'item': itemName})
+        this.setState({cart: new_cart})
+      }
+
+
     render() {
-        console.log('products is ',this.state.products)
         return (
             <div>
-                <h1> Products Home </h1>
+                <h1> <u>Products Home</u> </h1>
+                <div className='cart'>
+                    ({this.state.cart.length} items in cart)
+                    { this.state.cart.length > 0 ?
+                        <a href='/checkout'> <u> Checkout </u> </a> : null
+                    }
+                </div>
                 {this.state.products.map((data, index) => {
-                    return <li key={index}> {data.type} </li>
+                    return (<div key={index}>
+                                <span> <h3> {data.name}  </h3> <h4> {data.meta.display_price.with_tax.formatted} </h4> </span>
+                                <button id={data.id} onClick={this.handleClick}> Add to Cart </button>
+                                <hr style={{width: 40+'%'}}/>
+                            </div>
+                    );
                 })
                 }
             </div>

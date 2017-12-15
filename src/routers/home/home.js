@@ -5,6 +5,7 @@ class StoreHome extends Component {
         return(
             <div>
                 <h1> Store Home </h1>
+                <a href='/products'> <u> Go and Shop >>> </u> </a>
             </div>
         );
     }

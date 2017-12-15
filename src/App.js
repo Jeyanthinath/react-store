@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+// import { cart } from '../public/cart.png'
 import { Switch, Route } from 'react-router-dom';
 import StoreHome from './routers/home/home'
 import ProductsContainer from './routers/products/products'
@@ -14,7 +15,7 @@ class App extends Component {
         </header>
         <Switch>
           <Route exact path="/" component={StoreHome} />
-          <Route path="/products" component={ProductsContainer} />
+          <Route path="/products" component={ProductsContainer} handler={this.handler}/>
           <Route path="*" component={NotFound} />
         </Switch>
         <p className="App-intro">
